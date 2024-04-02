@@ -6,10 +6,18 @@ import user from "../../assets/user.svg"
 import { useGlobalContext } from "../../hooks/useGlobalContext"
 import { useLocation } from "react-router-dom"
 import { useEffect } from "react"
+import { useQuery } from "@tanstack/react-query"
+import { getUser } from "../../apiFetches/axios"
 
 const Navbar = () => {
   const {setShowLogin} = useGlobalContext()
   const {pathname} = useLocation()
+  const {data: user} = useQuery({
+    queryFn: () => getUser(),
+    queryKey: ["user"]
+  })
+
+  console.log(user);
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -31,7 +39,7 @@ const Navbar = () => {
             {pathname === "/"  && <li><Link onClick={() => setShowLogin(true)}>Sign In</Link></li>}
           </ul>
           </nav>
-          {pathname === "/"  ? <Button /> : <div><img src={user} alt="" className=" w-14 h-14 object-cover"/></div>}
+          {pathname === "/"  ? <Button /> : <div><img src={user?.user?.profile} alt="" className=" w-12 h-12 rounded-full object-cover"/></div>}
         </div>
       </header>
     </div>

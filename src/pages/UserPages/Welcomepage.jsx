@@ -1,14 +1,23 @@
 import React from "react";
 import stories_img from "../../assets/stories_page.svg"
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 
 const Welcomepage = () => {
     const navigate = useNavigate()
+    const token = Cookies.get('token')
+    let decoded = null
+
+    if (token) {
+      decoded = jwtDecode(token)
+      console.log(decoded);
+    }
   return (
     <div className="h-[514px]">
       <div className="flex items-center justify-between gap-10 w-full h-full p-10" style={{maxWidth: "1440px", margin: "auto"}}>
         <div className="flex flex-col gap-6">
-          <h2 className="font-heading text-black-500 text-7xl font-bold">Welcome Maria,</h2>
+          <h2 className="font-heading text-black-500 text-7xl font-bold">Welcome {decoded?.username},</h2>
           <p className="text-xl leading-9 w-[538px] w-">
             Lorem ipsum dolor sit ameetur adipiscing elit. Coctetur egestas
             massa velit aliquam. Molestim bibendum hnt ipsum orci, platea
